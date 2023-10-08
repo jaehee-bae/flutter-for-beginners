@@ -14,7 +14,7 @@ class _HomeScreenState extends State<HomeScreen> {
   bool isLoading = true;
 
   void waitForWebtoons() async {
-    webtoons = await ApiService().getTodaysToons();
+    webtoons = await ApiService.getTodaysToons();
     isLoading = false;
     setState(() {});
   }
