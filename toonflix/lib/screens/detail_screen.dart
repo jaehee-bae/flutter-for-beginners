@@ -17,13 +17,13 @@ class DetailScreen extends StatefulWidget {
 }
 
 class _DetailScreenState extends State<DetailScreen> {
-  late Future<WebtoonDetailModel> webtoons;
+  late Future<WebtoonDetailModel> webtoon;
   late Future<List<WebtoonEpisodeModel>> episodes;
 
   @override
   void initState() {
     super.initState();
-    webtoons = ApiService.getToonById(widget.id);
+    webtoon = ApiService.getToonById(widget.id);
     episodes = ApiService.getLatestEpisodesById(widget.id);
   }
 
@@ -72,6 +72,40 @@ class _DetailScreenState extends State<DetailScreen> {
             ),
           ],
         ),
+        const SizedBox(
+          height: 25,
+        ),
+        FutureBuilder(
+          future: webtoon,
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              return Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 50),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      snapshot.data!.about,
+                      style: const TextStyle(
+                        fontSize: 20,
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 15,
+                    ),
+                    Text(
+                      '${snapshot.data!.genre} / ${snapshot.data!.age}',
+                      style: const TextStyle(
+                        fontSize: 20,
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            }
+            return const Text("...");
+          },
+        )
       ]),
     );
   }
